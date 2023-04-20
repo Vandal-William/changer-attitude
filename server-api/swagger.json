@@ -1,0 +1,74 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Pokedex",
+      "description": "Une API exemple qui référencie les pokemons"
+    },
+    "basePath": "/",
+    "paths": {
+      "/pokemon": {
+        "get": {
+          "summary": "Tous les pokémons de la BDD",
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/pokemon/:id": {
+        "get": {
+          "summary": "récupérer un pokemon avec son id",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "détails d'un pokemon"
+            },
+            "404": {
+              "description": "Pokemon not found"
+            }
+          }
+        }
+      },
+      "/type": {
+        "get": {
+          "summary": "Tous les type de pokemon",
+          "responses": {
+            "200": {
+              "description": "Success"
+            }
+          }
+        }
+      },
+      "/type/:id": {
+        "get": {
+          "summary": "récupérer les pokemons d'un même type par l'id du type",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "list des pokemons du même type"
+            },
+            "404": {
+              "description": "Type not found"
+            }
+          }
+        }
+      }
+    }
+  }
+  
