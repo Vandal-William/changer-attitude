@@ -44,7 +44,7 @@ app.use(express.json());
 app.use(bodySanitizer);
 
 const corsOptions = {
-  origin: ['http://localhost:3003', 'http://localhost:8001', 'http://projets-portfolio.ovh:8001'],
+  origin: ['http://localhost:3003', 'http://localhost:8001', 'http://projets-portfolio.ovh:8001', 'http://localhost:3000'],
   optionsSuccessStatus: 200, 
   methods: ['GET', 'PUT', 'POST', 'DELETE']
 }

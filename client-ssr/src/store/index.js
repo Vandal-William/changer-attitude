@@ -1,20 +1,16 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';
 
-import counterReducer from '../reducers/exemples/counter';
-import userReducer from '../reducers/exemples/user';
-import pokemonReducer from '../reducers/exemples/pokemonList';
+import adminReducer from '../reducers/admin';
 
 import debug from '../middlewares/exemples/debug';
-import pokemonMiddleware from '../middlewares/exemples/pokemonList'
+import admin from '../middlewares/admin';
 
 const rootReducer = combineReducers({
-  counter: counterReducer,
-  user: userReducer,
-  pokemonList: pokemonReducer
+  admin: adminReducer,
 });
 
-const middleware = [thunk, debug, pokemonMiddleware];
+const middleware = [thunk, debug, admin];
 
 const store = configureStore({
   reducer: rootReducer,

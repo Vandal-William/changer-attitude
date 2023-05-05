@@ -1,26 +1,196 @@
-8 sloc) 920 Bytes
-
-/* Vérifier si les tables existent, sinon on les vires  */
-
--- Démarer une transaction afin de s'assurer de la cohérencce globale de la BDD
-
 BEGIN;
--- Si toutes les commandes entre le BEGIN; et le COMMIT; se passe bien, j'acte les changements
 
-DROP TABLE IF EXISTS "Table_name", "Table_name";
--- on va préferer le generated as identity primary car c'est un standard SQL alors que SERIAL et un pseudo-type de PG
--- "id" SERIAL PRIMARY KEY,
 
-CREATE TABLE "Table_name" (
+DROP TABLE IF EXISTS "contact", "question", "training", "contract", "quotation", "answer", "meet", "levy", "program", "skill", "category", "publication", "rubric", "book", "subscriber", "bank_card", "subscription", "contact_answer", "admin_connect" CASCADE;
+
+CREATE TABLE contact (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "champ_name" TEXT NOT NULL DEFAULT '',
-    "Table_Name_id" INTEGER NOT NULL REFERENCES Table_name("id") ON DELETE CASCADE,
+    "firstname" VARCHAR(255) NOT NULL,
+    "lastname" VARCHAR(255) NOT NULL,
+    "phone" VARCHAR(255) NOT NULL,
+    "mail" VARCHAR(255) NOT NULL,
+    "company" VARCHAR(255) NOT NULL,
+    "company-adress" TEXT NOT NULL DEFAULT '',
+    "company-zip-code" TEXT NOT NULL DEFAULT '',
+    "company-city" TEXT NOT NULL DEFAULT '',
+    "status" VARCHAR(255) NOT NULL DEFAULT 'contact',
+    "re-contact" BOOLEAN NOT NULL DEFAULT FALSE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE question (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "content" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE training (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "type" VARCHAR(255) NOT NULL,
+    "theme" VARCHAR(255) NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "price" FLOAT NOT NULL,
+    "duration" VARCHAR(255) NOT NULL,
+    "objective" TEXT NOT NULL,
+    "target" VARCHAR(255) NOT NULL,
+    "format" VARCHAR(255) NOT NULL DEFAULT 'Sur le site de l''entreprise',
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE contract (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "start-date" DATE NOT NULL,
+    "end-date" DATE NOT NULL,
+    "status" VARCHAR(255) NOT NULL,
+    "Responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
+    "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE quotation (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "Responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
+    "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE answer (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "response" TEXT NOT NULL DEFAULT '',
+    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "question_id" INTEGER NOT NULL REFERENCES question("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE meet (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "date" DATE NOT NULL,
+    "time" TIME NOT NULL,
+    "subject" TEXT NOT NULL,
+    "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE levy (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "amount" FLOAT NOT NULL,
+    "date" DATE NOT NULL,
+    "status" VARCHAR(255) NOT NULL,
+    "reference" VARCHAR(255) NOT NULL,
+    "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE program (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "program-content" VARCHAR(255) NOT NULL DEFAULT '',
+    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE skill (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "skill-content" VARCHAR(255) NOT NULL,
+    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE category (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "name" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE publication (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "main-title" VARCHAR(255) NOT NULL,
+    "objective" TEXT NOT NULL,
+    "introduction" TEXT NOT NULL,
+    "category_id" INTEGER NOT NULL REFERENCES category("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE rubric (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "title" TEXT NOT NULL DEFAULT '',
+    "content" TEXT NOT NULL DEFAULT '',
+    "publication_id" INTEGER NOT NULL REFERENCES publication("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE book (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "title" VARCHAR(255) NOT NULL,
+    "resume" TEXT NOT NULL,
+    "price" FLOAT NOT NULL,
+    "format" TEXT NOT NULL DEFAULT 'PDF',
+    "picture" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE subscriber (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "firstname" VARCHAR(255) NOT NULL,
+    "lastname" VARCHAR(255) NOT NULL,
+    "adress" VARCHAR(255) NOT NULL,
+    "zip-code" VARCHAR(10) NOT NULL,
+    "city" VARCHAR(255) NOT NULL,
+    "username" VARCHAR(255) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE bank_card (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "number" VARCHAR(255) NOT NULL,
+    "date" DATE NOT NULL,
+    "secret-code" VARCHAR(4) NOT NULL,
+    "subscriber_id" INTEGER NOT NULL REFERENCES subscriber("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE subscription (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "start-date" DATE NOT NULL,
+    "status" VARCHAR(255) NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT FALSE,
+    "subscriber_id" INTEGER NOT NULL REFERENCES subscriber("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE contact_answer (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "answer_id" INTEGER NOT NULL REFERENCES answer("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE admin_connect (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "username" VARCHAR(255) NOT NULL,
+    "password" VARCHAR(255) NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
 
 COMMIT;
-
--- Créer une FOREIGN key :
--- "Table_Name_id" INTEGER NOT NULL REFERENCES Table_name("id") 
--- ON DELETE CASCADE ici la suppression de l'un entraine celle de l'autre
