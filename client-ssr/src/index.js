@@ -6,7 +6,7 @@ import './styles/index.scss';
 import reportWebVitals from './reportWebVitals';
 
 import App from './components/App';
-import store from './store'
+import store from './store';
 
 ReactDOM.hydrate(
 <Provider store={store}>
