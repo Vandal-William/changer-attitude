@@ -10,11 +10,11 @@ CREATE TABLE contact (
     "phone" VARCHAR(255) NOT NULL,
     "mail" VARCHAR(255) NOT NULL,
     "company" VARCHAR(255) NOT NULL,
-    "company-adress" TEXT NOT NULL DEFAULT '',
-    "company-zip-code" TEXT NOT NULL DEFAULT '',
-    "company-city" TEXT NOT NULL DEFAULT '',
+    "company_adress" TEXT NOT NULL DEFAULT '',
+    "company_zip_code" TEXT NOT NULL DEFAULT '',
+    "company_city" TEXT NOT NULL DEFAULT '',
     "status" VARCHAR(255) NOT NULL DEFAULT 'contact',
-    "re-contact" BOOLEAN NOT NULL DEFAULT FALSE,
+    "re_contact" BOOLEAN NOT NULL DEFAULT FALSE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
@@ -42,8 +42,8 @@ CREATE TABLE training (
 
 CREATE TABLE contract (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "start-date" DATE NOT NULL,
-    "end-date" DATE NOT NULL,
+    "start_date" DATE NOT NULL,
+    "end_date" DATE NOT NULL,
     "status" VARCHAR(255) NOT NULL,
     "Responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
     "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
@@ -63,9 +63,8 @@ CREATE TABLE quotation (
 
 CREATE TABLE answer (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "response" TEXT NOT NULL DEFAULT '',
-    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
     "question_id" INTEGER NOT NULL REFERENCES question("id") ON DELETE CASCADE,
+    "response" TEXT NOT NULL DEFAULT '',
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
@@ -149,7 +148,7 @@ CREATE TABLE subscriber (
     "firstname" VARCHAR(255) NOT NULL,
     "lastname" VARCHAR(255) NOT NULL,
     "adress" VARCHAR(255) NOT NULL,
-    "zip-code" VARCHAR(10) NOT NULL,
+    "zip_code" VARCHAR(10) NOT NULL,
     "city" VARCHAR(255) NOT NULL,
     "username" VARCHAR(255) NOT NULL,
     "password" VARCHAR(255) NOT NULL,
@@ -161,7 +160,7 @@ CREATE TABLE bank_card (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "number" VARCHAR(255) NOT NULL,
     "date" DATE NOT NULL,
-    "secret-code" VARCHAR(4) NOT NULL,
+    "secret_code" VARCHAR(4) NOT NULL,
     "subscriber_id" INTEGER NOT NULL REFERENCES subscriber("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
