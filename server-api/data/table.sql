@@ -45,7 +45,7 @@ CREATE TABLE contract (
     "start_date" DATE NOT NULL,
     "end_date" DATE NOT NULL,
     "status" VARCHAR(255) NOT NULL,
-    "Responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
+    "responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
     "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
     "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),

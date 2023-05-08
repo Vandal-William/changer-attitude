@@ -4,18 +4,65 @@ const contact = {
 
     async getContactInfo() {
         const query = `
-        SELECT contact.firstname, contact.lastname, contact.company, contact.id
+        SELECT contact.firstname, contact.lastname, contact.id
         FROM contact
-        `
+        WHERE status = 'contact'
+        ORDER BY id DESC
+        LIMIT 5;
+        `;
         const results = await client.query(query);
         return results.rows
     },
 
     async getOneContactInfo(id){
         const query = `
-        SELECT * 
+        SELECT contact.*,
+        COALESCE(to_json(answer_responses), '[]'::json) AS responses,
+        COALESCE(to_json(contract_trainings), '[]'::json) AS contract_training,
+        COALESCE(to_json(quotation_trainings), '[]'::json) AS training_quotation,
+        COALESCE(to_json(meet_ids), '[]'::json) AS meets,
+        COALESCE(to_json(levy_ids), '[]'::json) AS levies,
+        COALESCE(to_json(quotation_ids), '[]'::json) AS quotations,
+        COALESCE(to_json(contract_ids), '[]'::json) AS contracts
         FROM contact
-        WHERE contact.id = $1
+        LEFT JOIN (
+            SELECT contact_id, array_agg(response) AS answer_responses
+            FROM contact_answer
+            JOIN answer ON contact_answer.answer_id = answer.id
+            GROUP BY contact_id
+        ) AS answer_agg ON contact.id = answer_agg.contact_id
+        LEFT JOIN (
+            SELECT contact_id, array_agg(training_id) AS contract_trainings
+            FROM contract
+            GROUP BY contact_id
+        ) AS contract_agg ON contact.id = contract_agg.contact_id
+        LEFT JOIN (
+            SELECT contact_id, array_agg(training_id) AS quotation_trainings
+            FROM quotation
+            GROUP BY contact_id
+        ) AS quotation_agg ON contact.id = quotation_agg.contact_id
+        LEFT JOIN (
+            SELECT contact_id, array_agg(json_build_object('date', meet.date, 'time', meet.time, 'subject', meet.subject)) AS meet_ids
+            FROM meet
+            GROUP BY contact_id
+        ) AS meet_agg ON contact.id = meet_agg.contact_id
+        LEFT JOIN (
+            SELECT contact_id, array_agg(id) AS levy_ids
+            FROM levy
+            GROUP BY contact_id
+        ) AS levy_agg ON contact.id = levy_agg.contact_id
+        LEFT JOIN (
+            SELECT contact_id, array_agg(id) AS quotation_ids
+            FROM quotation
+            GROUP BY contact_id
+        ) AS quotation_id_agg ON contact.id = quotation_id_agg.contact_id
+        LEFT JOIN (
+            SELECT contact_id, array_agg(json_build_object('start_date', contract.start_date, 'end_date', contract.end_date, 'status', contract.status, 'training_id', contract.training_id, 'responsible', contract.responsible)) AS contract_ids
+            FROM contract
+            GROUP BY contact_id
+        ) AS contract_id_agg ON contact.id = contract_id_agg.contact_id
+        WHERE contact.id = $1;
+
         `;
         const values = [id];
 
