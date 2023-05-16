@@ -1,3 +1,5 @@
+@import './vars';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -8,6 +10,27 @@ body {
 }
 .home-admin{
   display: flex;
+}
+
+.connect{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1%;
+  box-shadow: 1px 1px 2px black;
+  margin: 0 0 2% 0;
+  font-size: 13px;
+  border-radius: 2%;
+
+  &-link{
+    text-decoration: none;
+    font-size: 13px;
+    border-radius: 5%;
+    background-color: $primaryColor;
+    color: #eaeaea;
+    padding: 1.5%;
+  }
+
 }
 
 code {

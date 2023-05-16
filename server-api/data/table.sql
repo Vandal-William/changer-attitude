@@ -1,7 +1,7 @@
 BEGIN;
 
 
-DROP TABLE IF EXISTS "contact", "question", "training", "contract", "quotation", "answer", "meet", "levy", "program", "skill", "category", "publication", "rubric", "book", "subscriber", "bank_card", "subscription", "contact_answer", "admin_connect" CASCADE;
+DROP TABLE IF EXISTS "contact", "question", "training", "contract", "contract_training", "quotation", "quotation_training", "answer", "meet", "levy", "program", "skill", "category", "publication", "rubric", "book", "subscriber", "bank_card", "subscription", "contact_answer", "admin_connect" CASCADE;
 
 CREATE TABLE contact (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -26,20 +26,6 @@ CREATE TABLE question (
     "updated_at" TIMESTAMPTZ
 );
 
-CREATE TABLE training (
-    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "type" VARCHAR(255) NOT NULL,
-    "theme" VARCHAR(255) NOT NULL,
-    "name" VARCHAR(255) NOT NULL,
-    "price" FLOAT NOT NULL,
-    "duration" VARCHAR(255) NOT NULL,
-    "objective" TEXT NOT NULL,
-    "target" VARCHAR(255) NOT NULL,
-    "format" VARCHAR(255) NOT NULL DEFAULT 'Sur le site de l''entreprise',
-    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    "updated_at" TIMESTAMPTZ
-);
-
 CREATE TABLE contract (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "start_date" DATE NOT NULL,
@@ -47,15 +33,45 @@ CREATE TABLE contract (
     "status" VARCHAR(255) NOT NULL,
     "responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
     "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
-    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
 
+CREATE TABLE training (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "type" VARCHAR(255) NOT NULL,
+    "theme" VARCHAR(255) NOT NULL,
+    "name" VARCHAR(255) NOT NULL,
+    "price" FLOAT NOT NULL,
+    "duration" INTEGER NOT NULL,
+    "objective" TEXT NOT NULL,
+    "target" VARCHAR(255) NOT NULL,
+    "format" VARCHAR(255) NOT NULL DEFAULT 'Sur le site de l''entreprise',
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE contract_training (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "contract_id" INTEGER NOT NULL REFERENCES contract("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+
 CREATE TABLE quotation (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "Responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
+    "responsible" TEXT NOT NULL DEFAULT 'Changer d''attitude',
     "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE quotation_training (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "quotation_id" INTEGER NOT NULL REFERENCES quotation("id") ON DELETE CASCADE,
+    "contract_id" INTEGER NOT NULL REFERENCES contract("id") ON DELETE CASCADE,
     "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
@@ -86,6 +102,7 @@ CREATE TABLE levy (
     "status" VARCHAR(255) NOT NULL,
     "reference" VARCHAR(255) NOT NULL,
     "contact_id" INTEGER NOT NULL REFERENCES contact("id") ON DELETE CASCADE,
+    "contract_id" INTEGER NOT NULL REFERENCES contract("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );

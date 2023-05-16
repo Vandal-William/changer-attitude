@@ -84,6 +84,97 @@ INSERT INTO meet (
     contact_id
 ) VALUES 
 ('2023-08-07', '10:00:00', 'Premier contact', 1),
+('2023-10-09', '9:00:00', '2eme contact présentation du devi', 1),
+('2023-12-10', '11:00:00', 'signature du contrat', 1),
 ('2023-06-07', '09:30:00', 'Premier contact', 2);
+
+INSERT INTO training (
+    type,
+    theme,
+    name,
+    price,
+    duration,
+    objective,
+    target
+) VALUES 
+(
+    'Formation', 
+    'Communication', 
+    'Communication interpersonnelle', 
+    100, 
+    24, 
+    'résoudre les conflits lier a la communication au sein d''une entreprise', 
+    'salarié'
+),
+(
+    'Coaching', 
+    'Communication', 
+    'Résolution de conflits', 
+    80, 
+    10, 
+    'Evité les conflits et les gérer plus éfficacement', 
+    'salarié'
+),
+(
+    'Médiation', 
+    'Communication', 
+    'Intelligence émotionnelle', 
+    150, 
+    8, 
+    'identifier et gérer ces émotions', 
+    'salarié/employeur'
+),
+(
+    'Ateliers', 
+    'Communication', 
+    'Communication non violente', 
+    50, 
+    3, 
+    'adopter une communication éfficace', 
+    'salarié/employeur'
+);
+
+INSERT INTO contract (
+    start_date,
+    end_date,
+    status,
+    contact_id
+) VALUES 
+('2023-09-08', '2023-10-10', 'en cours', 1 );
+
+
+INSERT INTO contract_training (
+    training_id,
+    contract_id
+) VALUES 
+(1, 1 ),
+(2, 1 ),
+(3, 1 );
+
+INSERT INTO quotation (
+    contact_id
+) VALUES 
+(1);
+
+
+INSERT INTO quotation_training (
+    quotation_id,
+    contract_id,
+    training_id
+) VALUES 
+(1, 1, 1),
+(1, 1, 2),
+(1, 1, 3);
+
+INSERT INTO levy (
+    amount,
+    date,
+    status,
+    reference,
+    contact_id,
+    contract_id
+) VALUES 
+(1035, '2023-09-08', 'En attente', 'RGB789D600C780M', 1, 1),
+(1035, '2023-10-10', 'En attente', 'RCC680E800B240X', 1, 1);
 
 COMMIT;

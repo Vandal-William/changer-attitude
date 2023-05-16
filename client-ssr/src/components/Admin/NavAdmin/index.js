@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom'
 
 import './styles.scss';
-import logoPetit from '../../images/LogoPetit.svg';
+import logoPetit from '../../../images/LogoPetit.svg';
 
 function NavAdmin() {
 

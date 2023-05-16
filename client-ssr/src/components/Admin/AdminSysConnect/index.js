@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 
 import './styles.scss';
-import logo from '../../images/Logo.svg';
+import logo from '../../../images/Logo.svg';
 
 function AdminSysConnect() {
 

@@ -23,28 +23,6 @@ const contactController = {
         }
     },
 
-    getOneContactNeed : async (req, res) => {
-        const id = req.params.id;
-        try{
-            const contactNeed = await dataMapper.getContactNeedInfo(id);
-            res.json(contactNeed);
-          
-        }catch(error){
-            res.json(error)
-        }
-    },
-
-    getOneContactMeet : async (req, res) => {
-        const id = req.params.id;
-        try{
-            const contactMeet = await dataMapper.getOneContactMeetInfo(id);
-            res.json(contactMeet);
-          
-        }catch(error){
-            res.json(error)
-        }
-    },
-
     updateOneContact : async (req, res) => {
 
         const id = req.params.id;
