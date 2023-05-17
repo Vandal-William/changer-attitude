@@ -64,20 +64,31 @@ const contact = (store) => (next) => (action) => {
       mail,
       phone,
       re_contact,
-      status
+      status,
+      id
 
     } = action.payload;
   
-
-    // instance
-    //   .get(``)
-    //   .then((response) => {
-        
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     alert('Erreur de chargement, veuillez réessayer');
-    //   });
+    instance
+      .post(`/updateContact/${id}`, {
+        company,
+        company_adress,
+        company_city,
+        company_zip_code,
+        firstname,
+        lastname,
+        mail,
+        phone,
+        re_contact,
+        status
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Erreur de chargement, veuillez réessayer');
+      });
 
   }
 

@@ -111,6 +111,7 @@ const contact = {
         company_zip_code,
         company_city,
         status,
+        re_contact,
         id
     ){
         const query = `
@@ -125,8 +126,10 @@ const contact = {
             company_zip_code = $7,
             company_city = $8,
             status = $9,
-            WHERE id = $10;
+            re_contact = $10
+            WHERE contact.id = $11;
         `;
+        const boolean = Boolean(re_contact);
         const values = [
             firstname,
             lastname,
@@ -137,9 +140,10 @@ const contact = {
             company_zip_code,
             company_city,
             status,
+            boolean,
             id
         ];
-
+        console.log(values)
         const update = await client.query(query, values);
     },
 

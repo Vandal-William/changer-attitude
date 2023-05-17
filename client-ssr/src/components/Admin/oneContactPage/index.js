@@ -31,7 +31,7 @@ function OneContactPage() {
 
     e.preventDefault()
     const { name, value } = e.target;
-      const newAllContactInfo = { ...contact, [name]: value };
+      const newAllContactInfo = { ...contact, id: params.id, [name]: value };
   
     dispatch({ type: 'UPDATE_CONTACT', payload: newAllContactInfo });
   }

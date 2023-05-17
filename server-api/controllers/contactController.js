@@ -35,6 +35,7 @@ const contactController = {
             company_adress,
             company_zip_code,
             company_city,
+            re_contact,
             status
         } = req.body
 
@@ -48,6 +49,7 @@ const contactController = {
                 company_adress,
                 company_zip_code,
                 company_city,
+                re_contact,
                 status,
                 id
             );
@@ -55,6 +57,7 @@ const contactController = {
             res.json("update contact success !")
           
         }catch(error){
+            console.log(error)
             res.json(error)
         }
 
