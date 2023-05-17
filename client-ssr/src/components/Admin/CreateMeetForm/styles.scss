@@ -1,0 +1,20 @@
+.meet{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #eaeaea;
+    border-radius: 15px;
+    box-shadow: 1px 1px 2px black;
+    padding: 2%;
+
+    &-label{
+        margin: 0.5%;
+    }
+
+    &-input{
+        margin: 0.5%;
+        padding: 0.5%;
+    }
+    
+}

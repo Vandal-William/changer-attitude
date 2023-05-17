@@ -92,6 +92,30 @@ const contact = (store) => (next) => (action) => {
 
   }
 
+  if (action.type === 'CREATE_MEET') {
+    const { 
+      date,
+      time,
+      subject,
+      id
+    } = action.payload;
+  
+    instance
+      .post(`/createMeet/${id}`, {
+        date,
+        time,
+        subject
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Erreur de chargement, veuillez réessayer');
+      });
+
+  }
+
   next(action);
 };
 

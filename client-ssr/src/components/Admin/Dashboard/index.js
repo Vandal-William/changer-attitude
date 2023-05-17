@@ -17,7 +17,7 @@ function Dashboard(props) {
   }, [dispatch]);
 
   return (
-  <div className='home-admin'>
+  <div className='default-home'>
     <NavAdmin/>
     <div className='dashboard'>
       <h1 className='dashboard-title'>Dashboard</h1>

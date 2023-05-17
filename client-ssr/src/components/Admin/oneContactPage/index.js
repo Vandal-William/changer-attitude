@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 import NavAdmin from '../NavAdmin';
@@ -8,6 +9,8 @@ import {updateContact} from '../../../reducers/contact';
 import './styles.scss'
 
 function OneContactPage() {
+
+  const navigate = useNavigate()
   const contact = useSelector(state => state.contact);
   const {levies} = contact
   console.log(levies)
@@ -42,8 +45,12 @@ function OneContactPage() {
       dispatch(updateContact(newAllContactInfo));
   }
 
+  const handleCreateMeet = () => {
+    navigate(`/create/meet/${params.id}`)
+  }
+
   return (
-    <div className='home-admin'>
+    <div className='default-home'>
       <NavAdmin/>
       <div className='onecontact'>
         <h2 className='onecontact-name'>{contact.firstname} - {contact.lastname}</h2>
@@ -123,7 +130,7 @@ function OneContactPage() {
 
         <fieldset className='onecontact-field'>
 
-              <button className='onecontact-btn'>Ajouter un rendez-vous</button>
+              <button onClick={handleCreateMeet} className='onecontact-btn'>Ajouter un rendez-vous</button>
               <table className='onecontact-table'>
                   <thead className='onecontact-thead'>
                     <tr>

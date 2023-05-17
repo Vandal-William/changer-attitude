@@ -1,4 +1,4 @@
-@import './vars';
+@import './_vars.scss';
 
 body {
   margin: 0;
@@ -8,8 +8,43 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.home-admin{
+.default-home{
   display: flex;
+}
+
+.default-style{
+  width: 70%;
+  background-color: $primaryColor;
+  margin-left: 30%;
+  min-height: 100vh;
+
+  &-title{
+    text-align: end;
+    padding: 1%;
+    color: #eaeaea;
+  }
+}
+
+.btn{
+  padding: 0.5%;
+  background-color: $darken_color; 
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 2px black;
+  font-size: bold;
+  pointer-events: visible;
+  cursor: pointer;
+  margin: 2% 0 2% 0;
+
+  &:hover{
+      background-color: $primaryColor;
+      color: #ffffff;
+  }
+
+  &:active{
+      background-color: $darkColor;
+      color: #ffffff;
+  }
 }
 
 .connect{
