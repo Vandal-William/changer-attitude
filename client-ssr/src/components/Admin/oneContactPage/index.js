@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { connect, useDispatch, useSelector} from 'react-redux';
+ import { connect, useDispatch, useSelector} from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 
 import NavAdmin from '../NavAdmin';
-import {getAllContactInfo} from '../../../reducers/contact';
+import {updateContact} from '../../../reducers/contact';
 
 function OneContactPage() {
-  const contact = useSelector(state => state.contact.allContactInfo);
+  const contact = useSelector(state => state.contact);
+  const {levies} = contact
+  console.log(levies)
   
   const params = useParams();
   const dispatch = useDispatch();
@@ -27,24 +29,16 @@ function OneContactPage() {
   const handleSubmit = (e) => {
 
     e.preventDefault()
-    const updateContact = {
-      firstname: e.target.firstname.value,
-      lastname: e.target.lastname.value,
-      company: e.target.company.value,
-      company_adress: e.target.company_adress.value,
-      company_city: e.target.company_city.value,
-      company_zip_code: e.target.company_zip_code.value,
-      mail: e.target.mail.value,
-      phone: e.target.phone.value,
-      status: e.target.status.value
-    }
-    dispatch({ type: 'UPDATE_CONTACT', payload: updateContact });
+    const { name, value } = e.target;
+      const newAllContactInfo = { ...contact, [name]: value };
+  
+    dispatch({ type: 'UPDATE_CONTACT', payload: newAllContactInfo });
   }
 
   const handleChange = (e) =>{
     const { name, value } = e.target;
-      const newAllContactInfo = { [name]: value };
-      dispatch(getAllContactInfo(newAllContactInfo));
+      const newAllContactInfo = {...contact, [name]: value };
+      dispatch(updateContact(newAllContactInfo));
   }
 
   return (
@@ -52,7 +46,7 @@ function OneContactPage() {
       <NavAdmin/>
       <div className='onecontact'>
         <h2 className='onecontact-name'>{contact.firstname} - {contact.lastname}</h2>
-        <form onSubmit={handleSubmit} className='onecontact-form'>
+        <form  className='onecontact-form'>
 
           <fieldset className='onecontact-field'>
 
@@ -110,7 +104,7 @@ function OneContactPage() {
 
             <label className='onecontact-label' for="company_city">Ville</label>
             <input onChange={handleChange} className='onecontact-input' id="company_city" type="text" name="company_city" value={contact.company_city}/>
-            <button> Modifier</button>
+            <button onClick={handleSubmit}> Modifier</button>
           </fieldset>
 
         </form>
@@ -272,8 +266,8 @@ function OneContactPage() {
   );
 }
 
-const mapStateToProps = (state) => ({
-  contact: state.contact.allContactInfo,
+ const mapStateToProps = (state) => ({
+   contact: state.contact,
 });
 
-export default connect(mapStateToProps)(OneContactPage);
+ export default connect(mapStateToProps)(OneContactPage);
