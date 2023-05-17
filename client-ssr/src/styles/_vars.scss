@@ -2,3 +2,5 @@
 $primaryColor : #00AAAA;
 $lightColor : #62FFFF;
 $darkColor : #22595E;
+
+$darken_color : darken($lightColor, 30%);

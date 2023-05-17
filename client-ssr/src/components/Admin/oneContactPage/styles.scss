@@ -1,0 +1,126 @@
+@import '../../../styles/vars';
+
+.onecontact{
+    width: 70%;
+    background-color: $primaryColor;
+    margin-left: 30%;
+    &-name{
+        text-align: end;
+        padding: 1%;
+        color: #eaeaea;
+    }
+
+    &-field{
+        width: 90%;
+        padding: 2%;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 1px 1px 2px black;
+        margin: auto;
+        background-color: #eaeaea;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &-label{
+        margin: 0.5%;
+    }
+
+    &-input{
+        margin: 0.5%;
+        padding: 0.5%; 
+    }
+
+    &-legend{
+        margin: 2%;
+        font-size: 25px;
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    &-cta {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    &-submit{
+        margin: 2% 0.5% 0 0.5%;
+        padding: 0.5%;
+        background-color: $darken_color; 
+        border: none;
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px black;
+        font-size: bold;
+        pointer-events: visible;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $primaryColor;
+            color: #ffffff;
+        }
+
+        &:active{
+            background-color: $darkColor;
+            color: #ffffff;
+        }
+    }
+
+    &-response{
+        font-size: 13px;
+        line-height: 0;
+        color: red;
+    }
+
+    &-btn{
+        padding: 0.5%;
+        background-color: $darken_color; 
+        border: none;
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px black;
+        font-size: bold;
+        pointer-events: visible;
+        cursor: pointer;
+
+        &:hover{
+            background-color: $primaryColor;
+            color: #ffffff;
+        }
+
+        &:active{
+            background-color: $darkColor;
+            color: #ffffff;
+        }
+    }
+
+    &-active{
+        &:hover{
+            background-color: $darken_color;
+            
+        }
+    }
+
+    &-table{
+        border: 1px solid black;
+        width: 100%;
+        margin-top: 1%;
+    }
+
+    &-thead{
+        border: 1px solid black;
+    }
+
+    &-tbody{
+        border: 1px solid black;
+    }
+
+    &-th{
+        border: 1px solid black;
+    }
+
+    &-td{
+        border: 1px solid black;
+
+    }
+
+}

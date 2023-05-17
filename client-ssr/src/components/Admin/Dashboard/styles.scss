@@ -3,7 +3,9 @@
 .dashboard{
     width: 70%;
     background-color: $primaryColor;
-    overflow: auto;
+    position: fixed;
+    right: 0;
+    height: 100vh;
 
     &-title{
         padding: 2%;
