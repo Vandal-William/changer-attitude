@@ -17,6 +17,7 @@ function NavAdmin() {
       <div className='nav-admin-div'>
         <h3 className='nav-admin-subtitle'>Gestion clients</h3>
         <ul className='nav-admin-ul'>
+          <NavLink className='nav-admin-link' to="/dashboard"><li className='nav-admin-li'>Dashboard</li></NavLink>
           <NavLink className='nav-admin-link' to=""><li className='nav-admin-li'>Voir les contacts</li></NavLink>
           <NavLink className='nav-admin-link' to=""><li className='nav-admin-li'>Gerer les rendez-vous</li></NavLink>
           <NavLink className='nav-admin-link' to=""><li className='nav-admin-li'>Gérer les contrats</li></NavLink>

@@ -42,7 +42,8 @@ const contact = (store) => (next) => (action) => {
           phone : response.data.phone,
           re_contact : response.data.re_contact,
           responses : response.data.responses,
-          status : response.data.status,
+          status_id : response.data.status_id,
+          status_name : response.data.status_name,
           training_quotation : response.data.training_quotation,
         }));
       })
@@ -64,7 +65,7 @@ const contact = (store) => (next) => (action) => {
       mail,
       phone,
       re_contact,
-      status,
+      status_id,
       id
 
     } = action.payload;
@@ -80,7 +81,7 @@ const contact = (store) => (next) => (action) => {
         mail,
         phone,
         re_contact,
-        status
+        status_id
       })
       .then((response) => {
         console.log(response.data)
@@ -106,6 +107,46 @@ const contact = (store) => (next) => (action) => {
         time,
         subject
       })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Erreur de chargement, veuillez réessayer');
+      });
+
+  }
+
+  if (action.type === 'UPDATE_MEET') {
+    const { 
+      date,
+      time,
+      subject,
+      id
+    } = action.payload;
+  
+    instance
+      .post(`/updateMeet/${id}`, {
+        date,
+        time,
+        subject
+      })
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Erreur de chargement, veuillez réessayer');
+      });
+
+  }
+   if (action.type === 'DELETE_MEET') {
+    const { 
+      id
+    } = action.payload;
+  
+    instance
+      .post(`/deleteMeet/${id}`)
       .then((response) => {
         console.log(response.data)
       })

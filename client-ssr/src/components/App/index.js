@@ -5,8 +5,10 @@ import { Route, Routes } from 'react-router-dom';
 
 import AdminSysConnect from '../Admin/AdminSysConnect';
 import Dashboard from '../Admin/Dashboard';
-import OneContactPage from '../Admin/oneContactPage'
-import CreateMeetForm from '../Admin/CreateMeetForm';
+import OneContactPage from '../Admin/Contact/oneContactPage'
+import CreateMeetForm from '../Admin/Meet/CreateMeetForm';
+import UpdateMeetForm from '../Admin/Meet/UpdateMeetForm';
+import CreateQuotationForm from '../Admin/Quotation/CreateQuotationForm';
 // import ErrorPage from '../Admin/ErrorPage';
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
               <Route path='/dashboard' element={<Dashboard />}/>
               <Route path='/contact/:id' element={<OneContactPage />}/>
               <Route path='/create/meet/:id' element={<CreateMeetForm />}/>
+              <Route path='/meet/update/:contact_id/:id' element={<UpdateMeetForm />}/>
+              <Route path='/quotation/create' element={<CreateQuotationForm />}/>
             {/* )} */}
             {/* {!token && (
               <Route path='/dashboard' element={<ErrorPage />}/>

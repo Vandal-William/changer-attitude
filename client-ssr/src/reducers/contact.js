@@ -16,7 +16,8 @@ const contactSlice = createSlice({
         phone : "",
         re_contact : false,
         responses : [],
-        status : "",
+        status_id : "",
+        status_name : "",
         training_quotation : [],
  
     },
@@ -39,7 +40,8 @@ const contactSlice = createSlice({
             state.phone = action.payload.phone;
             state.re_contact = action.payload.re_contact;
             state.responses = action.payload.responses;
-            state.status = action.payload.status;
+            state.status_id = action.payload.status_id;
+            state.status_name = action.payload.status_name;
             state.training_quotation = action.payload.training_quotation
         },
         updateContact : (state, action) => {
@@ -52,7 +54,15 @@ const contactSlice = createSlice({
             state.mail = action.payload.mail;
             state.phone = action.payload.phone;
             state.re_contact = action.payload.re_contact;
-            state.status = action.payload.status;
+            state.status_id = action.payload.status_id;
+            state.status_name = action.payload.status_name;
+        },
+        updateMeet : (state, action) => {
+            const updatedMeet = action.payload;
+            const index = state.meets.findIndex((meet) => meet.id === updatedMeet.id);
+            if (index !== -1) {
+              state.meets[index] = updatedMeet;
+            }
         }
     }
 });
@@ -60,4 +70,5 @@ const contactSlice = createSlice({
 export const {getContact} = contactSlice.actions;
 export const {getAllContactInfo} = contactSlice.actions;
 export const {updateContact} = contactSlice.actions;
+export const {updateMeet} = contactSlice.actions;
 export default contactSlice.reducer;

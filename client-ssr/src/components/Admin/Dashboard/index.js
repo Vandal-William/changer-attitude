@@ -1,14 +1,16 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { connect } from 'react-redux';
 import './styles.scss';
 
 import NavAdmin from '../NavAdmin';
 import ContactConnect from './ContactConnect';
+import { useDispatch, useSelector } from 'react-redux';
 
-function Dashboard(props) {
+function Dashboard() {
 
-  const { dispatch } = props;
+  const dispatch = useDispatch()
+  const contacts = useSelector(state => state.contact.contact);
+  console.log(contacts)
 
   useEffect(() => {
     dispatch({
@@ -23,16 +25,16 @@ function Dashboard(props) {
       <h1 className='dashboard-title'>Dashboard</h1>
       <div className='dashboard-content'>
       <div className='dashboard-parts'>
-      <h4 className='dashboard-parts-title'>Contacts({props.contactCount})</h4>
+      <h4 className='dashboard-parts-title'>Contacts({contacts.length})</h4>
       <div className='dashboard-parts-content'>
-        {props.contacts.map(contact => (
+        {contacts !== undefined ? contacts.map(contact => (
           <ContactConnect
           key={contact.id}
           id={contact.id}
           firstname={contact.firstname}
           lastname={contact.lastname}
           />
-        ))}
+        )) : 'Loading'}
       </div>
     </div>
     <div className='dashboard-parts'>
@@ -53,11 +55,5 @@ function Dashboard(props) {
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    contacts: state.contact.contact,
-    contactCount: state.contact.contact.length
-  };
-};
 
-export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;

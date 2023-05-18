@@ -19,6 +19,7 @@ const contactController = {
             const contact = await dataMapper.getOneContactInfo(id);
             res.json(contact);
         }catch(error){
+            console.log(error)
             res.json(error);
         }
     },
@@ -35,8 +36,8 @@ const contactController = {
             company_adress,
             company_zip_code,
             company_city,
-            re_contact,
-            status
+            status_id,
+            re_contact
         } = req.body
 
         try{
@@ -49,8 +50,8 @@ const contactController = {
                 company_adress,
                 company_zip_code,
                 company_city,
+                status_id,
                 re_contact,
-                status,
                 id
             );
 
@@ -83,6 +84,7 @@ const contactController = {
             res.json("update meet success !")
           
         }catch(error){
+            console.log(error)
             res.json(error)
         }
 
@@ -122,6 +124,32 @@ const contactController = {
           
         }catch(error){
             res.json(error)
+        }
+    },
+
+    createQuotation : async (req, res) => {
+
+        const id = req.params.id;
+        const { trainings } = req.body
+
+        try{
+            const quotation = await dataMapper.createQuotationForOneContact(id, trainings);
+            res.json("create meet success !")
+          
+        }catch(error){
+            res.json(error)
+        }
+    },
+
+    getTypeAndThemeToCreateQuotation : async (req, res) => {
+
+        try{
+
+            const typeAndTheme = await dataMapper.getThemeAndTypeOFTraining();
+            res.json(typeAndTheme)
+
+        }catch(error){
+            res.json(error);
         }
     }
 }

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 
-import NavAdmin from '../NavAdmin';
+import NavAdmin from '../../NavAdmin';
 import './styles.scss'
 
 function CreateMeetForm() {

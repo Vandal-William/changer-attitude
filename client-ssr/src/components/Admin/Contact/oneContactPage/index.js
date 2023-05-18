@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { connect, useDispatch, useSelector} from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 
 
-import NavAdmin from '../NavAdmin';
-import {updateContact} from '../../../reducers/contact';
+import NavAdmin from '../../NavAdmin';
+import {updateContact} from '../../../../reducers/contact';
 import './styles.scss'
 
 function OneContactPage() {
@@ -13,7 +13,7 @@ function OneContactPage() {
   const navigate = useNavigate()
   const contact = useSelector(state => state.contact);
   const {levies} = contact
-  console.log(levies)
+  console.log(contact)
   
   const params = useParams();
   const dispatch = useDispatch();
@@ -49,6 +49,10 @@ function OneContactPage() {
     navigate(`/create/meet/${params.id}`)
   }
 
+  const handleCreateQuotation = () => {
+    navigate('/quotation/create')
+  }
+
   return (
     <div className='default-home'>
       <NavAdmin/>
@@ -80,18 +84,18 @@ function OneContactPage() {
   
             {!contact.re_contact && ( 
               <div> 
-                <label className='onecontact-label' for="contact">Contact</label>
-                <input onChange={handleChange} className='onecontact-input' type="checkbox" name="contact" id="contact" value={contact.re_contact}/>
+                <label className='onecontact-label' for="re_contact">Contact</label>
+                <input onChange={handleChange} className='onecontact-input' type="checkbox" name="re_contact" id="re_contact" value={contact.re_contact}/>
               </div>
             )}
   
             <label className='onecontact-label' for="status">Status</label>
-            <select onChange={handleChange} name="status" id="status">
-              <option value={contact.status}>
-                {contact.status}
+            <select onChange={handleChange} name="status_id" id="status" value={contact.status_name}>
+              <option value={contact.status_name}>
+                {contact.status_name}
               </option>
-              <option value="Autre">
-                autre
+              <option value="contact">
+                contact
               </option>
             </select>
 
@@ -131,37 +135,38 @@ function OneContactPage() {
         <fieldset className='onecontact-field'>
 
               <button onClick={handleCreateMeet} className='onecontact-btn'>Ajouter un rendez-vous</button>
-              <table className='onecontact-table'>
-                  <thead className='onecontact-thead'>
-                    <tr>
-                      <th className='onecontact-th' style={{textAlign: 'start'}}>Date</th>
-                      <th className='onecontact-th' style={{textAlign: 'end'}}>Heure</th>
-                      <th className='onecontact-th' style={{textAlign: 'end'}}>Commentaire</th>
-                      <th className='onecontact-th' style={{textAlign: 'end'}}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className='onecontact-tbody'>
-                  {contact.meets !== undefined ? contact.meets.map(meet => {
-                      return (
-                        <tr className='onecontact-active'>
-                          <>
-                            <td className='onecontact-td' style={{textAlign: 'start'}}>{meet.date}</td>
-                            <td className='onecontact-td' style={{textAlign: 'end'}}>{meet.time}</td>
-                            <td className='onecontact-td' style={{textAlign: 'end'}}>{meet.subject}</td>
-                            <td className='onecontact-td' style={{textAlign: 'end'}}> <a href="#">Modifier</a> </td>
-
-                          </>
-                        </tr>
-                      )
-                  }): 'loading...'}
-                  </tbody>
-                </table>
+              {contact.meets && contact.meets.length > 0 && (
+                <table className='onecontact-table'>
+                    <thead className='onecontact-thead'>
+                      <tr>
+                        <th className='onecontact-th' style={{textAlign: 'start'}}>Date</th>
+                        <th className='onecontact-th' style={{textAlign: 'end'}}>Heure</th>
+                        <th className='onecontact-th' style={{textAlign: 'end'}}>Commentaire</th>
+                        <th className='onecontact-th' style={{textAlign: 'end'}}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className='onecontact-tbody'>
+                    {contact.meets !== undefined ? contact.meets.map(meet => {
+                        return (
+                          <tr className='onecontact-active'>
+                            <>
+                              <td className='onecontact-td' style={{textAlign: 'start'}}>{meet.date}</td>
+                              <td className='onecontact-td' style={{textAlign: 'end'}}>{meet.time}</td>
+                              <td className='onecontact-td' style={{textAlign: 'end'}}>{meet.subject}</td>
+                              <td className='onecontact-td' style={{textAlign: 'end'}}> <Link to={`/meet/update/${params.id}/${meet.id}`}>Modifier</Link> </td>
+                            </>
+                          </tr>
+                        )
+                    }): 'loading...'}
+                    </tbody>
+                  </table>
+              )}
           </fieldset>
 
         <h3 className='onecontact-legend'>Devis</h3>
 
         <fieldset className='onecontact-field'>
-          <button className='onecontact-btn'>Créer un devis</button>
+          <button onClick={handleCreateQuotation} className='onecontact-btn'>Créer un devis</button>
           {contact.training_quotation !== undefined ? contact.training_quotation.map(bill => {
             let total = 0; // initialise la variable pour stocker la somme
             return (
@@ -248,17 +253,20 @@ function OneContactPage() {
 
         <fieldset className='onecontact-field'>
           <button className='onecontact-btn'>Ajouter un prélèvement</button>
+
+          { contact.levies && contact.levies.length > 0 && (
           <table className='onecontact-table'>
             <thead className='onecontact-thead'>
-              <tr>
-                <th className='onecontact-th' style={{textAlign: 'start'}}>Date</th>
-                <th className='onecontact-th' style={{textAlign: 'end'}}>Montant</th>
-                <th className='onecontact-th' style={{textAlign: 'end'}}>Référence</th>
-                <th className='onecontact-th' style={{textAlign: 'end'}}>Statut</th>
-                <th className='onecontact-th' style={{textAlign: 'end'}}>Action</th>
-              </tr>
+                <tr>
+                  <th className='onecontact-th' style={{textAlign: 'start'}}>Date</th>
+                  <th className='onecontact-th' style={{textAlign: 'end'}}>Montant</th>
+                  <th className='onecontact-th' style={{textAlign: 'end'}}>Référence</th>
+                  <th className='onecontact-th' style={{textAlign: 'end'}}>Statut</th>
+                  <th className='onecontact-th' style={{textAlign: 'end'}}>Action</th>
+                </tr>
             </thead>
             <tbody className='onecontact-tbody'>
+
             {contact.levies !== undefined ? contact.levies.map(levy => {
                 return (
                   <tr className='onecontact-active' key={levy.id}>
@@ -275,6 +283,7 @@ function OneContactPage() {
             }): 'loading...'}
             </tbody>
           </table>
+          )}
         </fieldset>
 
       </div>

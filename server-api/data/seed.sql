@@ -1,5 +1,15 @@
 BEGIN;
 -- psql -U attitude -d attitude -f ./data/seed.s
+
+INSERT INTO status (
+    name
+) VALUES 
+('Contact'), 
+('Relance'),
+('Client'),
+('Renseignement / pas de projet'),
+('pas ou plus intérésser'); 
+
 INSERT INTO contact (
     firstname,
     lastname,
@@ -88,9 +98,29 @@ INSERT INTO meet (
 ('2023-12-10', '11:00:00', 'signature du contrat', 1),
 ('2023-06-07', '09:30:00', 'Premier contact', 2);
 
+INSERT INTO type (
+    name
+) VALUES 
+('Formation'),
+('Coaching'),
+('Médiation'),
+('Ateliers');
+
+INSERT INTO theme (
+    name
+) VALUES 
+('Communication'),
+('Baisse de motivation'),
+('Intégrations'),
+('Collaboration et coordination'),
+('Rétention des employés'),
+('Baisse de la Productivité'),
+('Culture et diversitée'),
+('Diversité et inclusion');
+
 INSERT INTO training (
-    type,
-    theme,
+    type_id,
+    theme_id,
     name,
     price,
     duration,
@@ -98,8 +128,8 @@ INSERT INTO training (
     target
 ) VALUES 
 (
-    'Formation', 
-    'Communication', 
+    1, 
+    1, 
     'Communication interpersonnelle', 
     100, 
     24, 
@@ -107,8 +137,8 @@ INSERT INTO training (
     'salarié'
 ),
 (
-    'Coaching', 
-    'Communication', 
+    2, 
+    1, 
     'Résolution de conflits', 
     80, 
     10, 
@@ -116,8 +146,8 @@ INSERT INTO training (
     'salarié'
 ),
 (
-    'Médiation', 
-    'Communication', 
+    3, 
+    1, 
     'Intelligence émotionnelle', 
     150, 
     8, 
@@ -125,8 +155,8 @@ INSERT INTO training (
     'salarié/employeur'
 ),
 (
-    'Ateliers', 
-    'Communication', 
+    4, 
+    1, 
     'Communication non violente', 
     50, 
     3, 
@@ -159,12 +189,11 @@ INSERT INTO quotation (
 
 INSERT INTO quotation_training (
     quotation_id,
-    contract_id,
     training_id
 ) VALUES 
-(1, 1, 1),
-(1, 1, 2),
-(1, 1, 3);
+(1, 1),
+(1, 2),
+(1, 3);
 
 INSERT INTO levy (
     amount,

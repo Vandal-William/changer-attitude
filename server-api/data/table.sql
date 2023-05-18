@@ -1,7 +1,14 @@
 BEGIN;
 
 
-DROP TABLE IF EXISTS "contact", "question", "training", "contract", "contract_training", "quotation", "quotation_training", "answer", "meet", "levy", "program", "skill", "category", "publication", "rubric", "book", "subscriber", "bank_card", "subscription", "contact_answer", "admin_connect" CASCADE;
+DROP TABLE IF EXISTS "status", "contact", "question", "type", "theme", "training", "contract", "contract_training", "quotation", "quotation_training", "quotation_contract",  "answer", "meet", "levy", "program", "skill", "category", "publication", "rubric", "book", "subscriber", "bank_card", "subscription", "contact_answer", "admin_connect" CASCADE;
+
+CREATE TABLE status (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
 
 CREATE TABLE contact (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -13,7 +20,7 @@ CREATE TABLE contact (
     "company_adress" TEXT NOT NULL DEFAULT '',
     "company_zip_code" TEXT NOT NULL DEFAULT '',
     "company_city" TEXT NOT NULL DEFAULT '',
-    "status" VARCHAR(255) NOT NULL DEFAULT 'contact',
+    "status_id" INTEGER NOT NULL DEFAULT 1 REFERENCES status("id") ON DELETE CASCADE,
     "re_contact" BOOLEAN NOT NULL DEFAULT FALSE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
@@ -37,10 +44,23 @@ CREATE TABLE contract (
     "updated_at" TIMESTAMPTZ
 );
 
+CREATE TABLE type (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "name" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+CREATE TABLE theme (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "name" VARCHAR(255) NOT NULL,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
 CREATE TABLE training (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "type" VARCHAR(255) NOT NULL,
-    "theme" VARCHAR(255) NOT NULL,
+    "type_id" INTEGER NOT NULL REFERENCES type("id") ON DELETE CASCADE,
+    "theme_id" INTEGER NOT NULL REFERENCES theme("id") ON DELETE CASCADE,
     "name" VARCHAR(255) NOT NULL,
     "price" FLOAT NOT NULL,
     "duration" INTEGER NOT NULL,
@@ -71,8 +91,15 @@ CREATE TABLE quotation (
 CREATE TABLE quotation_training (
     "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "quotation_id" INTEGER NOT NULL REFERENCES quotation("id") ON DELETE CASCADE,
-    "contract_id" INTEGER NOT NULL REFERENCES contract("id") ON DELETE CASCADE,
     "training_id" INTEGER NOT NULL REFERENCES training("id") ON DELETE CASCADE,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    "updated_at" TIMESTAMPTZ
+);
+
+CREATE TABLE quotation_contract (
+    "id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "quotation_id" INTEGER NOT NULL REFERENCES quotation("id") ON DELETE CASCADE,
+    "contract_id" INTEGER NOT NULL REFERENCES contract("id") ON DELETE CASCADE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ
 );
