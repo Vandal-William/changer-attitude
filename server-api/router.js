@@ -10,6 +10,7 @@ const contactController = require('./controllers/contactController');
 router.get('/contacts', contactController.getAllContact);
 router.get('/contact/:id', contactController.getOneContact);
 router.get('/get/type/theme', contactController.getTypeAndThemeToCreateQuotation);
+router.post('/search/training/themeAndType', contactController.searchTrainingsByTypeAndTheme);
 
 router.post('/updateContact/:id', contactController.updateOneContact);
 

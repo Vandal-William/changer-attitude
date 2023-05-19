@@ -19,6 +19,9 @@ const contactSlice = createSlice({
         status_id : "",
         status_name : "",
         training_quotation : [],
+        types_trainings: [],
+        themes_trainings: [],
+        results_searched_trainings: []
  
     },
     reducers: {
@@ -44,6 +47,10 @@ const contactSlice = createSlice({
             state.status_name = action.payload.status_name;
             state.training_quotation = action.payload.training_quotation
         },
+        getThemesTypesOfTrainings : (state, action) => {
+            state.types_trainings = action.payload.types_trainings;
+            state.themes_trainings = action.payload.themes_trainings
+        },
         updateContact : (state, action) => {
             state.company = action.payload.company;
             state.company_adress = action.payload.company_adress;
@@ -63,12 +70,17 @@ const contactSlice = createSlice({
             if (index !== -1) {
               state.meets[index] = updatedMeet;
             }
+        },
+        getResultsSearchedTraining : (state, action) => {
+            state.results_searched_trainings = action.payload.results_searched_trainings
         }
     }
 });
 
 export const {getContact} = contactSlice.actions;
 export const {getAllContactInfo} = contactSlice.actions;
+export const {getThemesTypesOfTrainings} = contactSlice.actions;
+export const {getResultsSearchedTraining} = contactSlice.actions;
 export const {updateContact} = contactSlice.actions;
 export const {updateMeet} = contactSlice.actions;
 export default contactSlice.reducer;

@@ -25,7 +25,7 @@ function App() {
               <Route path='/contact/:id' element={<OneContactPage />}/>
               <Route path='/create/meet/:id' element={<CreateMeetForm />}/>
               <Route path='/meet/update/:contact_id/:id' element={<UpdateMeetForm />}/>
-              <Route path='/quotation/create' element={<CreateQuotationForm />}/>
+              <Route path='/quotation/create/:id' element={<CreateQuotationForm />}/>
             {/* )} */}
             {/* {!token && (
               <Route path='/dashboard' element={<ErrorPage />}/>

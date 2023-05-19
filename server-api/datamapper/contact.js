@@ -233,14 +233,28 @@ const contact = {
     async getThemeAndTypeOFTraining (){
         const query = `
         SELECT
-        ARRAY_AGG(JSON_BUILD_OBJECT('id', t.id, 'name', t.name)) AS type,
-        ARRAY_AGG(JSON_BUILD_OBJECT('id', th.id, 'name', th.name)) AS theme
-        FROM
-            type t, theme th
-        LIMIT 1;
-      
+        (SELECT ARRAY_AGG(JSON_BUILD_OBJECT('id', id, 'name', name)) FROM type) AS type,
+        (SELECT ARRAY_AGG(JSON_BUILD_OBJECT('id', id, 'name', name)) FROM theme) AS theme;
+    
         `;
         const results = await client.query(query);
+        return results.rows
+    },
+
+    async getTrainingsByTypeAndTheme (type_id, theme_id){
+
+        const query = `
+            SELECT id, name
+            FROM training
+            WHERE type_id = $1 AND theme_id = $2;
+        `;
+
+        const values = [
+            type_id,
+            theme_id
+        ];
+
+        const results = await client.query(query, values);
         return results.rows
     }
 

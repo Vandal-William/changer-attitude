@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {getContact} from '../reducers/contact';
 import {getAllContactInfo} from '../reducers/contact';
+import {getThemesTypesOfTrainings} from '../reducers/contact';
+import {getResultsSearchedTraining} from '../reducers/contact';
 
 const instance = axios.create({
   baseURL: 'http://localhost:4000',
@@ -150,6 +152,46 @@ const contact = (store) => (next) => (action) => {
       .then((response) => {
         console.log(response.data)
       })
+      .catch((error) => {
+        console.log(error);
+        alert('Erreur de chargement, veuillez réessayer');
+      });
+
+  }
+
+   if (action.type === 'GET_TYPES_AND_THEMES_OF_TRAININGS') {
+  
+    instance
+      .get(`/get/type/theme`)
+      .then((response) => {
+        response.data.map(res => {
+          store.dispatch(getThemesTypesOfTrainings({ 
+            types_trainings : res.type,
+            themes_trainings: res.theme
+          }));
+        })
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Erreur de chargement, veuillez réessayer');
+      });
+
+  }
+
+  if (action.type === 'SEARCH_TRAININGS') {
+    const { type_id, theme_id } = action.payload;
+
+    instance
+      .post('/search/training/themeAndType', {
+        type_id,
+        theme_id
+    })
+      .then((response) => {
+          store.dispatch(getResultsSearchedTraining({ 
+            results_searched_trainings : response.data
+          }));
+
+        })
       .catch((error) => {
         console.log(error);
         alert('Erreur de chargement, veuillez réessayer');

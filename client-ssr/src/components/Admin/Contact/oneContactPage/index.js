@@ -50,7 +50,7 @@ function OneContactPage() {
   }
 
   const handleCreateQuotation = () => {
-    navigate('/quotation/create')
+    navigate(`/quotation/create/${params.id}`)
   }
 
   return (

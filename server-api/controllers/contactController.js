@@ -151,6 +151,19 @@ const contactController = {
         }catch(error){
             res.json(error);
         }
+    },
+
+    searchTrainingsByTypeAndTheme : async (req, res) => {
+
+        const {type_id, theme_id} = req.body
+        try{
+
+            const trainingSearched = await dataMapper.getTrainingsByTypeAndTheme(type_id, theme_id);
+            res.json(trainingSearched)
+
+        }catch(error){
+            res.json(error);
+        }
     }
 }
 
